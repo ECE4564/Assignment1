@@ -1,3 +1,8 @@
+
+from src.brigdeargeparser import bridgeparser
+
+bridgeparser()
+
 #What the fuck does this need to do.
 
 #Take question from client pass to server.
