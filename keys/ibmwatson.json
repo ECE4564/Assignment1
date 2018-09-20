@@ -1,0 +1,11 @@
+{
+  "textToSpeech": [
+    {
+      "name": "net-apps-assignment--texttospeech-1537448363046",
+      "credentials": {
+        "apikey": "0HmgySH685SRB4V4ED_LOa3la69lLhx7856VTNIaNA2u",
+        "url": "https://gateway-wdc.watsonplatform.net/text-to-speech/api"
+      }
+    }
+  ]
+}
