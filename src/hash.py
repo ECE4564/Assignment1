@@ -1,5 +1,5 @@
 
+import hashlib
 
 def hash(text):
-    return text
-
+    return hashlib.md5(text)
