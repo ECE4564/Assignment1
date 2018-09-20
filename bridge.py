@@ -1,12 +1,19 @@
 
 from src.brigdeargeparser import bridge_parser
+from src.createSocket import connect, openPort
 
 args = bridge_parser().parse_args()
 
-bridge_ip = args.bridge_ip
+server_port = args.server_port
+server_ip = args.server_ip
 bridge_port = args.bridge_port
+backlog_size = args.backlog_size
 socket_size = args.socket_size
-hashtag = args.hashtag
+
+socket = connect(ip=server_ip, port=server_port, backlog_size=backlog_size)
+serversocket = openPort(port=bridge_port, socket_size=socket_size)
+
+
 
 #What the fuck does this need to do.
 
