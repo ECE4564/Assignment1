@@ -25,15 +25,16 @@ serversocket = openPort(port=bridge_port, socket_size=socket_size)
 
 '''
 Bridge Rpi
-	•Initiated on command line with parameter of serverinfo
+	•Initiated on command line with parameter of serverinfo - Done
 	•Receives and deconstructs question/answer payload
-	•Verify checksum•Decrypt answer
+	•Verify checksum
+	•Decrypt answer
 	•Sends question/answer to IBM Watson via API call
 	•Downloads question/answer audio from IBM Watson
 	•Plays question/answer audio•Deletes local question/answer audio
 '''
 
-#Command line interface
+#Command line interface - Done
 '''
 python3 bridge.py–svr-p <SERVER_PORT> -svr<SERVER_IP_ADDR> -p <BRIDGE_PORT> -b <BACKLOG_SIZE> -z <SOCKET_SIZE>
 '''
