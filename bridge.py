@@ -1,6 +1,9 @@
 
 from src.brigdeargeparser import bridge_parser
 from src.createSocket import connect, openPort
+from src.ibmWatson import WatsonTextToSpeech
+
+import pickle
 
 args = bridge_parser().parse_args()
 
@@ -12,7 +15,18 @@ socket_size = args.socket_size
 
 socket = connect(ip=server_ip, port=server_port, backlog_size=backlog_size)
 serversocket = openPort(port=bridge_port, socket_size=socket_size)
+watson = WatsonTextToSpeech()
 
+while True:
+    client1, address1 = socket.accept()
+    print("Connected to server")
+    client2, address2 = serversocket.accept()
+    print("Client connected")
+    data = client1.recv(socket_size)
+    client2.send(data)
+    data = pickle.loads(client2.recv(socket_size))
+    stuff = watson.getAudio(data).content()
+    #figure out how to play stuff
 
 
 #What the fuck does this need to do.

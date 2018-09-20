@@ -11,13 +11,3 @@ def openPort(port, socket_size):
     serversocket.bind((socket.gethostname(), port) )
     serversocket.listen(socket_size)
     return serversocket
-
-from _thread import *
-import threading
-
-class ThreadedSocket:
-    def __init__(self):
-
-
-class ThreadedPort:
-    def __init__(self):
