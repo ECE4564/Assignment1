@@ -1,5 +1,7 @@
 from src.clientargparser import client_parser
 
+from clientVariable import key
+
 from clientVariable import consumer_key
 from clientVariable import consumer_secret
 
@@ -25,6 +27,8 @@ class filterListener(StreamListener):
             except AttributeError:
                 tweet = status.text
 
+        stripped_tweet = tweet.replace(hash_tag, '')
+
         print(tweet)
         return True
 
@@ -45,4 +49,4 @@ api = tweepy.API(auth)
 
 customListener = filterListener()
 customStream = Stream(api.auth, customListener)
-customStream.filter(track=['#fakenews'])
+customStream.filter(track=[hash_tag])
