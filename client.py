@@ -1,3 +1,5 @@
+from src.clientargparser import client_parser
+
 args = client_parser().parse_args()
 
 bridge_ip = args.bridge_ip
