@@ -37,6 +37,7 @@ def decrypt(question,key):
     decryptedQuestion = f.decrypt(question)
     return decryptedQuestion
 
+
 def assemblePayload(answer):
     # step1. generate a key for encryption
     newKey = Fernet.generate_key()
