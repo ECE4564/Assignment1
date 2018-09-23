@@ -1,3 +1,6 @@
 watson-developer-cloud
 wolframalpha
 cryptography
+fernet
+tweepy
+gTTS
