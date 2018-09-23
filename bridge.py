@@ -14,24 +14,26 @@ socket_size = int(args.socket_size)
 
 watson = WatsonTextToSpeech()
 
-serversocket = openPort(port=bridge_port, socket_size=socket_size)
+#serversocket = openPort(port=bridge_port, socket_size=socket_size)
 #[ Checkpoint  01]  Created  socket  at  0.0.0.0  on  port <BRIDGE_PORT>
-print(time() + "[Checkpoint 01] Created socket at 0.0.0.0  on  port {0}".format(bridge_port))
+#print(time() + "[Checkpoint 01] Created socket at 0.0.0.0  on  port {0}".format(bridge_port))
 
 # Wait for data from client
-print(time() + "[Checkpoint 02] Listening  for  client connections")
+#print(time() + "[Checkpoint 02] Listening  for  client connections")
 
-client, address = serversocket.accept()
+#client, address = serversocket.accept()
 # [Checkpoint 03] Accepted client connection  from CLIENT_IP>  on  port <CLIENT_PORT>
 print(time() + "[Checkpoint 03] Accepted client connection  from", address[0], 'on port', address[1])
 while True:
 
-    data = unPickle(client.recv(socket_size))
+    #data = unPickle(client.recv(socket_size))
     # [ Checkpoint  04]  Received  data : <UNPICKLED RECEIVED DATA>
-    print(time() + "[Checkpoint 04] Received data: ", data)
+    #print(time() + "[Checkpoint 04] Received data: ", data)
 
-    data = decodeMessage(data)
-    plaintext = decryptMessage(data[1], data[0])
+    #data = decodeMessage(data)
+    #plaintext = decryptMessage(data[1], data[0])
+    plaintext = "How fast is light?"
+    data = [123456]
     # [ Checkpoint  05]  Decrypt :  Key : <ENCRYPTION KEY> |  Plaintext <DECRYPTED QUESTOIN>
     print(time() + "[ Checkpoint  05]  Decrypt :  Key : ", data[0], " |  Plaintext ", plaintext)
 
