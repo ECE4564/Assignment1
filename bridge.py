@@ -55,7 +55,7 @@ while True:
     data = decodeMessage(data)
     plaintext = decryptMessage(data[1], data[0])
     # [ Checkpoint  10]  Decrypt :  Using Key : <ENCRYPTION KEY>|  Plaintext : <DECRYPTED ANSWER>
-    print(time() + "[ Checkpoint  10]  Decrypt :  Using Key : ", data[0], "|  Plaintext :" plaintext)
+    print(time() + "[ Checkpoint  10]  Decrypt :  Using Key : ", data[0], "|  Plaintext :", plaintext)
 
     watson.playAudio(plaintext)
     # [ Checkpoint  11]  Speaking Answer  : <ANSWER>
