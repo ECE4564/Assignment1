@@ -25,7 +25,7 @@ while True:
     data = client1.recv(socket_size)
     client2.send(data)
     data = pickle.loads(client2.recv(socket_size))
-    stuff = watson.getAudio(data).content()
+    stuff = watson.playAudio(data)
     #figure out how to play stuff
 
 
