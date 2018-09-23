@@ -95,3 +95,6 @@ api = tweepy.API(auth)
 customListener = filterListener()
 customStream = Stream(api.auth, customListener)
 customStream.filter(track=[hash_tag])
+
+while True:
+    count = 0
