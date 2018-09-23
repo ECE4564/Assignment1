@@ -2,6 +2,11 @@
 import hashlib
 import pickle
 from fernet import Fernet
+import datetime
+
+
+def time():
+    return "[" + str(datetime.datetime.time(datetime.datetime.now()))[:8] + "]"
 
 def md5(bytestr):
     return hashlib.md5(bytestr).hexdigest()

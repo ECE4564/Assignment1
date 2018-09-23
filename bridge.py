@@ -1,7 +1,7 @@
 
 from src.brigdeargeparser import bridge_parser
 from src.createSoc import connect, openPort
-from src.hash import decodeMessage, unPickle, decryptMessage, encodeMessage
+from src.hash import decodeMessage, unPickle, decryptMessage, encodeMessage, time
 from src.ibmWatson import WatsonTextToSpeech
 
 args = bridge_parser().parse_args()
@@ -16,50 +16,50 @@ watson = WatsonTextToSpeech()
 
 serversocket = openPort(port=bridge_port, socket_size=socket_size)
 #[ Checkpoint  01]  Created  socket  at  0.0.0.0  on  port <BRIDGE_PORT>
-print("[Checkpoint 01] Created socket at 0.0.0.0  on  port {0}".format(bridge_port))
+print(time() + "[Checkpoint 01] Created socket at 0.0.0.0  on  port {0}".format(bridge_port))
 
 # Wait for data from client
-print("[Checkpoint 02] Listening  for  client connections")
+print(time() + "[Checkpoint 02] Listening  for  client connections")
 
 client, address = serversocket.accept()
 # [Checkpoint 03] Accepted client connection  from CLIENT_IP>  on  port <CLIENT_PORT>
-print("[Checkpoint 03] Accepted client connection  from", address[0], 'on port', address[1])
+print(time() + "[Checkpoint 03] Accepted client connection  from", address[0], 'on port', address[1])
 while True:
 
     data = unPickle(client.recv(socket_size))
     # [ Checkpoint  04]  Received  data : <UNPICKLED RECEIVED DATA>
-    print("[Checkpoint 04] Received data: ", data)
+    print(time() + "[Checkpoint 04] Received data: ", data)
 
     data = decodeMessage(data)
     plaintext = decryptMessage(data[1], data[0])
     # [ Checkpoint  05]  Decrypt :  Key : <ENCRYPTION KEY> |  Plaintext <DECRYPTED QUESTOIN>
-    print("[ Checkpoint  05]  Decrypt :  Key : ", data[0], " |  Plaintext ", plaintext)
+    print(time() + "[ Checkpoint  05]  Decrypt :  Key : ", data[0], " |  Plaintext ", plaintext)
 
     watson.playAudio(plaintext)
     # [ Checkpoint  06]  Speaking  Question  : <QUESTION>
-    print("[ Checkpoint  06]  Speaking  Question  :", plaintext)
+    print(time() + "[ Checkpoint  06]  Speaking  Question  :", plaintext)
 
     socket = connect(ip=server_ip, port=server_port, backlog_size=backlog_size)
     # [ Checkpoint  07]  Connecting  to <SERVER IP>  on  port <SERVER PORT #>
-    print("[ Checkpoint  07]  Connecting  to ", server_ip, "  on  port ", server_port)
+    print(time() + "[ Checkpoint  07]  Connecting  to ", server_ip, "  on  port ", server_port)
 
     sending = encodeMessage(plaintext)
     socket.send(sending)
     # [ Checkpoint  08]  Sending  data : <PICKLED QUESTION PAYLOAD>
-    print("[ Checkpoint  08]  Sending  data : ", sending)
+    print(time() + "[ Checkpoint  08]  Sending  data : ", sending)
 
     data = socket.recv(socket_size)
     # [ Checkpoint  09]  Received  data : <ANSWER PAYLOAD>
-    print("[ Checkpoint  09]  Received  data : ", data)
+    print(time() + "[ Checkpoint  09]  Received  data : ", data)
 
     data = decodeMessage(data)
     plaintext = decryptMessage(data[1], data[0])
     # [ Checkpoint  10]  Decrypt :  Using Key : <ENCRYPTION KEY>|  Plaintext : <DECRYPTED ANSWER>
-    print("[ Checkpoint  10]  Decrypt :  Using Key : ", data[0], "|  Plaintext :" plaintext)
+    print(time() + "[ Checkpoint  10]  Decrypt :  Using Key : ", data[0], "|  Plaintext :" plaintext)
 
     watson.playAudio(plaintext)
     # [ Checkpoint  11]  Speaking Answer  : <ANSWER>
-    print("[ Checkpoint  11]  Speaking Answer  : ", plaintext)
+    print(time() + "[ Checkpoint  11]  Speaking Answer  : ", plaintext)
 
 
 #Command line interface - Done
