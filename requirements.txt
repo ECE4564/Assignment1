@@ -3,4 +3,3 @@ wolframalpha
 cryptography
 fernet
 tweepy
-gTTS
