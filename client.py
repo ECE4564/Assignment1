@@ -43,7 +43,7 @@ class filterListener(StreamListener):
         print(time() + "[ Checkpoint  01] Connecting  to " + bridge_ip + " on  port " + bridge_port)
 
         s.listen(socket_size)
-
+        
         print(time() +"C4")
 
         bridge, address = s.accept()
@@ -80,11 +80,13 @@ bridge_port = int(args.bridge_port)
 socket_size = int(args.socket_size)
 hash_tag = args.hash_tag
 
-print(bridge_ip, bridge_port, socket_size, hash_tag)
+# [ Checkpoint  01] Checking arguments: <BRIDGE_IP> : <BRIDGE_PORT> : <SOSCKET_SIZE> : <HASHTAG>
+print(time() + "arguments: BridgeIP: " bridge_ip," | Bridge port: ", bridge_port, " | socket size: ",socket_size," | hashtag: ", hash_tag)
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.secure = True
 auth.set_access_token(access_token, access_token_secret)
+
 
 api = tweepy.API(auth)
 
