@@ -11,6 +11,9 @@ def time():
 def md5(bytestr):
     return hashlib.md5(bytestr).hexdigest()
 
+def md5IsValid(encryptedQuestion,md5):
+    return md5 is md5(encryptedQuestion)
+
 def decryptMessage(data, key):
     f = Fernet(key)
     return f.decrypt(data).decode()

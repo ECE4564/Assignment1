@@ -1,12 +1,9 @@
-from serverImport import *
+import wolframalpha
+import socket,sys,getopt
+from serverVariable import app_id
+from cryptography.fernet import Fernet
 
-def deconstruct(Data):
-    return pickle.loads(Data)
-
-def md5IsValid(encryptedQuestion,md5):
-    temp = hashlib.md5(encryptedQuestion).hexdigest()
-    print(temp)
-    return ( md5 == temp )
+from src.hash import md5IsValid, unPickle, encodeMessage
 
 def queryWolfram(question):
     client = wolframalpha.Client(app_id)
@@ -38,17 +35,6 @@ def decrypt(question,key):
     return decryptedQuestion
 
 
-def assemblePayload(answer):
-    # step1. generate a key for encryption
-    newKey = Fernet.generate_key()
-    f = Fernet(newKey)
-    #step2. Encrypt the answer
-    encyptedAnswer = f.encrypt(answer.encode())
-    #step3. Generate CheckSum for the answer
-    checkSum = hash(encyptedAnswer)
-    
-    return pickle.dumps([newKey,encyptedAnswer,checkSum])
-
 def main(argv):
     host=''
     serverPort,socketSize,backlogSize = parseCommandLine(argv)
@@ -58,13 +44,13 @@ def main(argv):
     while 1:
         client, address = s.accept()
         data = client.recv(socketSize)
-        key,encryptedQuestion,checkSum = deconstruct(data)
+        key,encryptedQuestion,checkSum = unPickle(data)
 
         if data:
             if md5IsValid(encryptedQuestion,checkSum):
                 decryptedQuestion = (decrypt(encryptedQuestion,key)).decode("utf-8")
                 ans = queryWolfram(decryptedQuestion)
-                payload = assemblePayload(ans)
+                payload = encodeMessage(ans)
                 client.send(payload)
                 client.close()
             else:
