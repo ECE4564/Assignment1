@@ -38,7 +38,7 @@ def main(argv):
 
     serverPort,socketSize,backlogSize = parseCommandLine(argv)
     
-    #[ Checkpoint  01]  Received argument list <ARGS>
+    #[ Checkpoint  0]  Received argument list <ARGS>
     print(time() + "[Checkpoint 00] Arguments received ",(serverPort,socketSize,backlogSize))
     
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -95,7 +95,6 @@ def main(argv):
                 # client.close()
             else:
                 print("Invalid CheckSum")
-                sys.exit(0)      
 
 if __name__ == '__main__':
     main(sys.argv[1:])
