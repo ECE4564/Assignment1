@@ -3,6 +3,7 @@ import socket,sys,getopt
 from serverVariable import app_id
 from cryptography.fernet import Fernet
 from src.hash import md5IsValid, unPickle, encodeMessage, time
+from src.argparser import server_parser
 
 def queryWolfram(question):
     client = wolframalpha.Client(app_id)
@@ -11,21 +12,8 @@ def queryWolfram(question):
     return answer
 
 def parseCommandLine(argv):
-    try:
-        opts, args = getopt.getopt(argv,"hp:b:z:")
-    except getopt.GetoptError:
-        print ('usage: server.py -p SERVER_PORT -b BACKLOG_SIZE -z SOCKET_SIZE')
-        sys.exit(0)
-    for opt, arg in opts:
-        if opt == '-h':
-            print ('usage: server.py -p SERVER_PORT -b BACKLOG_SIZE -z SOCKET_SIZE')
-        elif opt == "-p":
-            serverPort = int(arg)
-        elif opt == "-b":
-            backlogSize = int(arg)
-        elif opt == "-z":
-            socketSize = int(arg)
-    return [serverPort,socketSize,backlogSize]
+    args = server_parser().parse_args()
+    return (args.server_port,args.socket_size,args.backlog_size)
 
 
 def decrypt(question,key):

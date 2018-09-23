@@ -1,5 +1,5 @@
 
-from src.brigdeargeparser import bridge_parser
+from src.argparser import bridge_parser
 from src.createSoc import connect, openPort
 from src.hash import decodeMessage, unPickle, decryptMessage, encodeMessage, time
 from src.ibmWatson import WatsonTextToSpeech
