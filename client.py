@@ -9,7 +9,7 @@ from src.clientargparser import client_parser
 
 from clientVariable import *
 
-from src.hash import md5IsValid, encodeMessage
+from src.hash import md5IsValid, encodeMessage, time
 
 def deconstruct(Data):
     return pickle.loads(Data)
@@ -36,31 +36,27 @@ class filterListener(StreamListener):
         #assemble stripped tweet payload
         payload = encodeMessage(tweet.replace(hash_tag, ''))
 
-        print("C1")
-
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        print("C2")
-
         s.bind((bridge_ip, bridge_port))
-
-        print("C3")
+        # [ Checkpoint  01]  Connecting  to <BRIDGE IP>  on  port <BRIDGE PORT #>
+        print(time() + "[ Checkpoint  01] Connecting  to " + bridge_ip + " on  port " + bridge_port)
 
         s.listen(socket_size)
 
-        print("C4")
+        print(time() +"C4")
 
         bridge, address = s.accept()
 
-        print("C5")
+        print(time() +"C5")
 
         bridge.send(payload)
 
-        print("C6")
+        print(time() +"C6")
 
         data = bridge.recv(socket_size)
 
-        print("C7")
+        print(time() +"C7")
 
         key,encryptedAnswer,checkSum = deconstruct(data)
 
@@ -94,7 +90,18 @@ api = tweepy.API(auth)
 
 customListener = filterListener()
 customStream = Stream(api.auth, customListener)
+# [ Checkpoint  02]  Listening  f o r  Tweets  that  contain : <HASHTAG>
+
 customStream.filter(track=[hash_tag])
 
 while True:
     count = 0
+
+
+# [ Checkpoint  01]  Connecting  to <BRIDGE IP>  on  port <BRIDGE PORT #>
+# [ Checkpoint  02]  Listening  f o r  Tweets  that  contain : <HASHTAG>
+# [ Checkpoint  03] New Tweet : <TWITTER_QUESTION>
+# [ Checkpoint  04]  Encrypt :  Generated Key : <ENCRYPTION KEY>|  Ciphertext :<ENCRYPTED QUESTION>
+# [ Checkpoint  05]  Sending  data : <QUESTION PAYLOAD>
+# [ Checkpoint  06]  Received  data : <ANSWER PAYLOAD>
+# [ Checkpoint  07]  Decrypt :  Using Key : <ENCRYPTION KEY>|  Plaintext : <DECRYPTED ANSWER>
