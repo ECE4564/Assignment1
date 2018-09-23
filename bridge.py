@@ -6,10 +6,10 @@ from src.ibmWatson import WatsonTextToSpeech
 
 args = bridge_parser().parse_args()
 
-server_port = args.server_port
+server_port = int(args.server_port)
 server_ip = args.server_ip
-bridge_port = args.bridge_port
-backlog_size = args.backlog_size
+bridge_port = int(args.bridge_port)
+backlog_size = int(args.backlog_size)
 socket_size = int(args.socket_size)
 
 watson = WatsonTextToSpeech()

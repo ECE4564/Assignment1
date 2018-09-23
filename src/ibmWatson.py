@@ -4,7 +4,7 @@ from watson_developer_cloud import TextToSpeechV1
 
 def getWatsonKeys():
     data = json.load(open('keys/ibmwatson.json', 'r'))
-    return data["textToSpeech"]["credentials"]
+    return data["textToSpeech"][0]["credentials"]
 
 class WatsonTextToSpeech:
     def __init__(self):
