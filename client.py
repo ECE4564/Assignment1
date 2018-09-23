@@ -1,23 +1,18 @@
-from clientImport import *
+import os
+import tweepy
+import pickle
+import socket,sys,getopt
+from tweepy import Stream
+from tweepy.streaming import StreamListener
+
+from src.clientargparser import client_parser
+
+from clientVariable import *
+
+from src.hash import md5IsValid, encodeMessage
 
 def deconstruct(Data):
     return pickle.loads(Data)
-
-def md5IsValid(encryptedAnswer,md5):
-    temp = hashlib.md5(encryptedAnswer).hexdigest()
-    print(temp)
-    return ( md5 == temp )
-
-def assemblePayload(answer):
-    # step1. generate a key for encryption
-    newKey = Fernet.generate_key()
-    f = Fernet(newKey)
-    #step2. Encrypt the answer
-    encyptedAnswer = f.encrypt(answer.encode())
-    #step3. Generate CheckSum for the answer
-    checkSum = hash(encyptedAnswer)
-
-    return pickle.dumps([newKey,encyptedAnswer,checkSum])
 
 def decrypt(question,key):
     f = Fernet(key)
@@ -39,7 +34,7 @@ class filterListener(StreamListener):
                 tweet = status.text
 
         #assemble stripped tweet payload
-        payload = assemblePayload(tweet.replace(hash_tag, ''))
+        payload = encodeMessage(tweet.replace(hash_tag, ''))
 
         print("C1")
 
