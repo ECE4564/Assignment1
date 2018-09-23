@@ -10,11 +10,12 @@ class WatsonTextToSpeech:
     def __init__(self):
         keys = getWatsonKeys()
         self.service = TextToSpeechV1(url=keys['url'], iam_apikey=keys["apikey"])
+        #print(keys["apikey"])
     def getAudio(self, text):
-        response = self.service.synthesize(text, accept='audio/wav', voice="en-US_AllisonVoice")
-        return response
+        return self.service.synthesize(text, accept='audio/wav', voice="en-US_AllisonVoice").get_result()
     def playAudio(self, text):
         with open('output.wav', 'wb') as audio_file:
-            audio_file.write( getAudio(text))
-        print('[Checkpoint] Speaking: ', tedt)
+            #print(self.getAudio(text))
+            audio_file.write(self.getAudio(text).content)
+        #print('[Checkpoint] Speaking: ', tedt)
         os.system('play output.wav')

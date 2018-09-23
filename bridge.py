@@ -23,7 +23,7 @@ watson = WatsonTextToSpeech()
 
 #client, address = serversocket.accept()
 # [Checkpoint 03] Accepted client connection  from CLIENT_IP>  on  port <CLIENT_PORT>
-print(time() + "[Checkpoint 03] Accepted client connection  from", address[0], 'on port', address[1])
+#print(time() + "[Checkpoint 03] Accepted client connection  from", address[0], 'on port', address[1])
 while True:
 
     #data = unPickle(client.recv(socket_size))
