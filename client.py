@@ -36,7 +36,7 @@ class filterListener(StreamListener):
 
         #assemble stripped tweet payload
         payload = encodeMessage(tweet.replace(hash_tag, ''))
-        s = connect(bridge_ip, bridge_port)
+        s = connect(bridge_ip, bridge_port, None)
         # [ Checkpoint  01]  Connecting  to <BRIDGE IP>  on  port <BRIDGE PORT #>
         print(time() + "[ Checkpoint  01] Connecting  to " + bridge_ip + " on  port " + str(bridge_port))
 
