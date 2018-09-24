@@ -26,59 +26,55 @@ def main(argv):
 
     serverPort,socketSize,backlogSize = parseCommandLine(argv)
     
-    #[ Checkpoint  0]  Received argument list <ARGS>
-    print(time() + "[Checkpoint 00] Arguments received ",(serverPort,socketSize,backlogSize))
     
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((socket.gethostname(),serverPort))
-    s.listen(backlogSize)
-
     #[ Checkpoint  01]  Created  socket  at  0.0.0.0  on  port <BRIDGE_PORT>
-    print(time() + "[Checkpoint 01] Created socket at 0.0.0.0  on  port {0}".format(serverPort))
+    print(time() + "Created socket at 0.0.0.0  on  port {0}".format(serverPort))
+    s.listen(backlogSize)
+    
+    #[Checkpoint  02]  Listening for client connections
+    print(time() + "Listening for client connections")
+    
     
     
     while 1:
-        # Wait for data from client
-        print(time() + "[Checkpoint 02] Listening  for  client connections")
-
+        
         client, address = s.accept()
 
-        # [Checkpoint 03] Accepted client connection  from BRIDGE_IP  on  port <BRIDGE_PORT>
-        print(time() + "[Checkpoint 03] Accepted client connection  from", address[0], 'on port', address[1])
+        # [Checkpoint 03] Accepted client connection  from <CLIENT_IP> on port <CLIENT_PORT>
+        print(time() + "Accepted client connection  from", address[0], 'on port', address[1])
 
         data = client.recv(socketSize)
 
-        # [ Checkpoint  04]  Received  data : <PICKLED DATA>
-        print(time() + "[Checkpoint 04] Received data: ", data)
-
-
         key,encryptedQuestion,checkSum = unPickle(data)
-
+        # [ Checkpoint 04 ] Received data : <UNPICKLED RECEIVED DATA>
+        print(time() + "Received data {","hash: ",checkSum,"question: ",encryptedQuestion,"key: ",key,"}")
         if data:
-            
-            # [ Checkpoint  05]  Validating CheckSum for Data : <MD5>
-            print(time() + "[Checkpoint 05] Received data checkSum: ", checkSum)
-
+           
             if md5IsValid(encryptedQuestion,checkSum):
                 decryptedQuestion = (decrypt(encryptedQuestion,key)).decode("utf-8")
-
-                # [ Checkpoint  06]  Wolfram  Question  : <QUESTION>
-                print(time() + "[ Checkpoint  06]  Wolfram  Question  :", decryptedQuestion)
+                # [Checkpoint 05] Decrypt : Key : <ENCRYPTION KEY> | Plaintext <DECRYPTED QUESTOIN>
+                print(time() + "Decrypt : Key :" ,key," | Plaintext", decryptedQuestion)
+                
+                # [ Checkpoint  06]  Sending question to Wolframalpha : <TWITTER_QUESTION>
+                print(time() + "Sending question to Wolframalpha :", decryptedQuestion)
 
                 ans = queryWolfram(decryptedQuestion)
 
-                # [ Checkpoint  07]  Wolfram  Question  : <QUESTION>
-                print(time() + "[ Checkpoint  07]  Wolfram  Answer  :", ans)
+                # [ Checkpoint  07]  Received answer from Wolframalpha : <WOLFRAM_ANSWER>
+                print(time() + "Wolfram  Answer  :", ans)
 
                 payload = encodeMessage(ans)
 
-                # [ Checkpoint  08]  Encoding Answer  : <ANSWER PAYLOAD>
-                print(time() + "[ Checkpoint  08]  Answer Payload  :", payload)
-
+                # [Checkpoint 08] Encrypt : Key : <ENCRYPTION KEY> | Cipher text : <ENCRYPTED ANSWER>
+                print(time() + "Encrypt : Key : ",payload[0]," | Cipher text : ",payload[1])
+                #[ Checkpoint 09 ] Generated MD5 Checksum: <ANSWER CHECKSUM>
+                print(time() + "Generated MD5 Checksum  :", payload[2])
+                
+                #[ Checkpoint 10 ] Sending answer : <ANSWER PAYLOAD>
+                print(time() + "Sending answer :", payload)
                 client.send(payload)
-
-                # [ Checkpoint  08]  Sending Data  : <ANSWER>
-                print(time() + "[ Checkpoint  08]  Sending Answer  :", payload)
 
                 # client.close()
             else:
