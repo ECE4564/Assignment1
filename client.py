@@ -10,6 +10,7 @@ from src.clientargparser import client_parser
 from clientVariable import *
 
 from src.hash import md5IsValid, encodeMessage, time
+from src.createSoc import connect
 
 def deconstruct(Data):
     return pickle.loads(Data)
@@ -35,26 +36,23 @@ class filterListener(StreamListener):
 
         #assemble stripped tweet payload
         payload = encodeMessage(tweet.replace(hash_tag, ''))
-
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        s.bind((bridge_ip, bridge_port))
+        s = connect(bridge_ip, bridge_port)
         # [ Checkpoint  01]  Connecting  to <BRIDGE IP>  on  port <BRIDGE PORT #>
         print(time() + "[ Checkpoint  01] Connecting  to " + bridge_ip + " on  port " + str(bridge_port))
-        print(tweet)
-        s.listen(socket_size)
+
+        #s.listen(socket_size)
 
         print(time() +"C4")
 
-        bridge, address = s.accept()
+        #bridge, address = s.accept()
 
         print(time() +"C5")
 
-        bridge.send(payload)
+        s.send(payload)
 
         print(time() +"C6")
 
-        data = bridge.recv(socket_size)
+        data = s.recv(socket_size)
 
         print(time() +"C7")
 
