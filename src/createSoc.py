@@ -2,8 +2,8 @@ import socket
 
 def connect(ip, port, backlog_size):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((ip, port))
-    s.listen(backlog_size)
+    s.connect((ip, port))
+    #s.listen(backlog_size)
     return s
 
 def openPort(port, socket_size):
