@@ -56,7 +56,7 @@ class filterListener(StreamListener):
 
         print(time() +"C7")
 
-        key,encryptedAnswer,checkSum = deconstruct(data)
+        key, encryptedAnswer, checkSum = deconstruct(data)
 
         print("D")
 

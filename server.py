@@ -16,7 +16,7 @@ def parseCommandLine():
     return (int(args.server_port),int(args.socket_size),int(args.backlog_size))
 
 
-def decrypt(question,key):
+def decrypt(question, key):
     f = Fernet(key)
     decryptedQuestion = f.decrypt(question)
     return decryptedQuestion
