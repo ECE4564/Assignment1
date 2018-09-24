@@ -11,9 +11,9 @@ def queryWolfram(question):
     answer = next(res.results).text
     return answer
 
-def parseCommandLine(argv):
+def parseCommandLine():
     args = server_parser().parse_args()
-    return (args.server_port,args.socket_size,args.backlog_size)
+    return (int(args.server_port),int(args.socket_size),int(args.backlog_size))
 
 
 def decrypt(question,key):
@@ -22,9 +22,9 @@ def decrypt(question,key):
     return decryptedQuestion
 
 
-def main(argv):
+def main():
 
-    serverPort,socketSize,backlogSize = parseCommandLine(argv)
+    serverPort,socketSize,backlogSize = parseCommandLine()
     
     #[ Checkpoint  0]  Received argument list <ARGS>
     print(time() + "[Checkpoint 00] Arguments received ",(serverPort,socketSize,backlogSize))
@@ -85,4 +85,4 @@ def main(argv):
                 print("Invalid CheckSum")
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()
