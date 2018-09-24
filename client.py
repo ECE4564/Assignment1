@@ -41,7 +41,7 @@ class filterListener(StreamListener):
         s.bind((bridge_ip, bridge_port))
         # [ Checkpoint  01]  Connecting  to <BRIDGE IP>  on  port <BRIDGE PORT #>
         print(time() + "[ Checkpoint  01] Connecting  to " + bridge_ip + " on  port " + str(bridge_port))
-
+        print(tweet)
         s.listen(socket_size)
 
         print(time() +"C4")
